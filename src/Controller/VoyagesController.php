@@ -14,10 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VoyagesController extends AbstractController{
     
-    #[Route('/voyages', name: 'voyages')]
+    #[Route('/admin', name: 'admin.voyages')]
     public function index(): Response {
         $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
-        return $this->render("pages/voyages.html.twig",[
+        return $this->render("admin/admin.voyages.html.twig",[
             'visites' => $visites
         ]);
     }
