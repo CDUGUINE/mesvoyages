@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of AdminVoyagesController
  *
- * @author cdugu
+ * @author cduguine
  */
 class AdminVoyagesController extends AbstractController{
     
