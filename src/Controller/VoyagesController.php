@@ -14,10 +14,27 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VoyagesController extends AbstractController{
     
-    #[Route('/admin', name: 'admin.voyages')]
+     /**
+     * 
+     * @var VisiteRepository
+     */
+    private $repository;
+
+    const PAGEVOYAGES = "pages/voyages.html.twig";
+    const PAGEVOYAGE = "pages/voyage.html.twig";
+    
+    /**
+     * 
+     * @param VisiteRepository $repository
+     */
+    public function __construct(VisiteRepository $repository) {
+        $this->repository = $repository;
+    }
+    
+    #[Route('/voyages', name: 'voyages')]
     public function index(): Response {
         $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
-        return $this->render("admin/admin.voyages.html.twig",[
+        return $this->render(self::PAGEVOYAGES,[
             'visites' => $visites
         ]);
     }
@@ -25,7 +42,7 @@ class VoyagesController extends AbstractController{
     #[Route('/voyages/tri/{champ}/{ordre}', name: 'voyages.sort')]
     public function sort($champ, $ordre): Response{
         $visites = $this->repository->findAllOrderBy($champ, $ordre);
-        return $this->render('pages/voyages.html.twig', [
+        return $this->render(self::PAGEVOYAGES, [
             'visites' => $visites
         ]);
     }
@@ -35,7 +52,7 @@ class VoyagesController extends AbstractController{
         if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token'))){
             $valeur = $request->get("recherche");
             $visites = $this->repository->findByEqualValue($champ, $valeur);
-            return $this->render("pages/voyages.html.twig", [
+            return $this->render(self::PAGEVOYAGES, [
                 'visites' => $visites
             ]);
         }
@@ -49,19 +66,5 @@ class VoyagesController extends AbstractController{
             'visite' => $visite
         ]);        
     }
-
-    /**
-     * 
-     * @var VisiteRepository
-     */
-    private $repository;
-
-    /**
-     * 
-     * @param VisiteRepository $repository
-     */
-    public function __construct(VisiteRepository $repository) {
-        $this->repository = $repository;
-    }
-
+    
 }
