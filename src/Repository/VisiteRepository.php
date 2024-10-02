@@ -54,7 +54,7 @@ class VisiteRepository extends ServiceEntityRepository
     
     /**
      * Retourne les n visites les plus récentes
-     * @param type $num
+     * @param type $nb
      * @return Visite[]
      */
     public function findAllLasted($nb): array {

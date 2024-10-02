@@ -16,10 +16,24 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminVoyagesController extends AbstractController{
     
-    #[Route('/voyages', name: 'voyages')]
+    /**
+     * 
+     * @var VisiteRepository
+     */
+    private $repository;
+
+    /**
+     * 
+     * @param VisiteRepository $repository
+     */
+    public function __construct(VisiteRepository $repository) {
+        $this->repository = $repository;
+    }
+    
+    #[Route('/admin', name: 'admin.voyages')]
     public function index(): Response {
         $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
-        return $this->render("pages/voyages.html.twig",[
+        return $this->render("admin/admin.voyages.html.twig",[
             'visites' => $visites
         ]);
     }
@@ -63,20 +77,6 @@ class AdminVoyagesController extends AbstractController{
             'visite' => $visite,
             'formvisite' => $formVisite->createView()
         ]);        
-    }
-    
-/**
-     * 
-     * @var VisiteRepository
-     */
-    private $repository;
-
-    /**
-     * 
-     * @param VisiteRepository $repository
-     */
-    public function __construct(VisiteRepository $repository) {
-        $this->repository = $repository;
     }
     
 }
